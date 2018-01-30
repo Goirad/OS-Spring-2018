@@ -57,7 +57,7 @@ int main(int argc, char * argv[]) {
   int numThreads;
   //boiler plate to add to validation code
   if (argc != 2) {
-    printf("Correct usage:\n   ./sync.o n\nwhere n is the number of threads\n");
+    printf("Correct usage:\n   ./sync n\nwhere n is the number of threads\n");
     exit(0);
   }else{
     struct ValidatedInt cand = parseInt(argv[1]);
