@@ -16,4 +16,11 @@ the mutex can increment the shared value. And since the POSIX librarry guarantee
 only one thread can ever have a mutex at a time, only one thread can read and
 write at a time, and so the expected output is achieved.
 
-
+On another note, for some reason when run on ocelot, the max number of threads
+that the program can spawn is 126, which makes the requirements of the specs
+unattainable, at least on ocelot. This appears to be a limitation of ocelot only, 
+since running it on my home pc allows me to create up to around 11k threads before
+the same problem presents itself. I think this can also be improved by not having
+threads wait at a barrier until they are all done, to free up their stack which
+is I think the problem. Maybe have them all return a value that is then store on the 
+main thread in an array, and that way a lot fewer threads are alive at any one time.
