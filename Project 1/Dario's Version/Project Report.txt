@@ -1,7 +1,8 @@
-Try your program with the command line parameter set to 1, 2, 3, 4, and 5. Analyze and explain
-the results. Put your explanation in your project report.
+Project 1 Report
 
-Project Report
+Team 3
+Dario Gonzalez
+Marcelo Valencia
 
 With a command line parameter set to 1, the program runs as expected,
 because there is never more than one thread modifying the shared variable.
@@ -9,3 +10,10 @@ With more than 1 thread accessing the same variable at the same time,
 some increments are lost, because first one thread reads the value, then
 another reads and increments, and then the first sets it to 1 more than
 it read, effectively invalidating the other thread's increment.
+
+When the synchronization is enabled, only the thread that currently holds 
+the mutex can increment the shared value. And since the POSIX librarry guarantees
+only one thread can ever have a mutex at a time, only one thread can read and
+write at a time, and so the expected output is achieved.
+
+
