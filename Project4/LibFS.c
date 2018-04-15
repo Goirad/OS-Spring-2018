@@ -1055,7 +1055,31 @@ int Dir_Create(char *path) {
  * in which case the function should return -1 and set osErrno to E_ROOT_DIR.
  */
 int Dir_Unlink(char *path) {
-  return(-1);
+  /* YOUR CODE */
+  char *rootPath = "/";
+  if (strcmp(rootPath, path) == 0)
+  {
+	osErrno = E_ROOT_DIR;
+	return -1;
+  }
+  char path_name[255];
+  int child_inode;
+  int parent_inode = follow_path(path, &child_node, path_name)
+  if (parent_inode < 0)
+  {
+	osErrono = E_NO_SUCH_DIR;
+	return -1;
+  }
+  
+  int success = remove_inode(1, parent_inode, child_inode);
+  if (success < 0)
+  {
+	dprintf("...DIR not empty\n");	
+	osErrno = E_DIR_NOT_EMPTY;
+	return -1;
+  }
+  printf("...DIR unlinked\n");
+  return 0;
 }
 
 /*
@@ -1064,7 +1088,22 @@ int Dir_Unlink(char *path) {
  * contents of the directory.
  */
 int Dir_Size(char *path) {
-  return(0);
+  /* YOUR CODE */
+  char path_name[255];
+  int child_node;
+  int parent_node = follow_path(1, &child_node, path_name);
+  if (parent_node < 0)
+  {
+	osErrno = E_NO_SUCH_DIR;
+	return -1;
+  }
+  int inode_sector = INODE_TABLE_START_SECTOR + child_inode / INODES_PER_SECTOR;
+  char inode_buffer[SECTOR_SIZE];
+  int inode_start_entry = (inode_sector - INODE_TABLE_START_SECTOR) + INODES_PER_SECTOR;
+  int offset = child_inode -inode_start_entry;
+  inode_t *child = (inode_t *)(inode_buffer + offset * sizeof(inode_t));
+  return child->size;
+  //return 0;
 }
 
 /*
